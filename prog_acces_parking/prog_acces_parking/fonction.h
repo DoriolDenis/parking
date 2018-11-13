@@ -9,10 +9,10 @@
 #define PAS2 11     /// pour commander le moteur 
 #define PAS3 12     /// pas a pas 
 #define PAS4 13     /// ici in moteur 4 pas 
-#define OUVRIR 1    /// Alias pour clarifier le programme 
-#define FERMER 0    /// pour l'ouverture et la fermeture de la barriere
-#define BOUCLEAMONT 0xA6     /// 166 
-#define BOUCLEAVAL 0xC6      /// 198
+#define OUVRIR 0xFD    /// Alias pour clarifier le programme 
+#define FERMER 0xFE    /// pour l'ouverture et la fermeture de la barriere
+#define BOUCLEAMONT 0xA6     /// 198 
+#define BOUCLEAVAL 0xC6      /// 166
 #define VALIDATION 16
 #define TEMPO 10
 #define MECANISME 0x20    //0 0 1 0 0 0 0 0  Assignation de l'adresse 0x20 a la variable mecanisme du bus I2C
