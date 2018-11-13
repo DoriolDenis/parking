@@ -1,9 +1,22 @@
+#include <EEPROM.h>
+#include <LiquidCrystal.h>
+#include "i2c.h"
+#include <Wire.h>
+void activerAffichage (int adresse);
 void setup() {
-  //Il faut faire un programme qui affiche une message qui demande de saisir le code sur l'afficheur lorsque une voiture est detecter 
-  //sur la boucle amont
-  
+  // put your setup code here, to run once:
+  #define Transmission
+  #define Afficheur
+  #define Commande
+
+  void activerAffichage (int adresse)
+  {
+    int i;
+    envoyerCommande(adress,0x20);
+  }
 }
 
 void loop() {
+  // put your main code here, to run repeatedly:
 
 }
