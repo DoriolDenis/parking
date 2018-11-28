@@ -1,30 +1,47 @@
-#include "fonction.h"
 #include <Wire.h>
+#include "fonction.h"
 #include "i2c.h"
 
 void setup() {
-  Serial.begin(9600);           /// Demarrage de la liaison serie
-  Wire.beginTransmission(0x20);
-  Wire.write(0xFE);
-  Wire.endTransmission();
-  /******* Bus I2C *******/
+
+  Serial.begin(9600);
   Wire.begin();
-  initI2C(200);
+  initI2C(255);
+  Wire.beginTransmission(MECANISME);
+  //fermer();
+  //Wire.endTransmission(MECANISME);
+
 }
 
 void loop() {
-  //int nombreVoiture = 0;
-  if (lectureBav() == 1 && lectureBam == 0) {
+
+
+  /* Sortie d'un vehicule */
+  Wire.beginTransmission(MECANISME);
+  if ((lectureBav() == BOUCLEAVAL) && (lectureBam() != BOUCLEAMONT))
+  {
     ouvrir();
-    while (lectureBav() == 1 && lectureBam() == 0);
-    if (lectureBav() == 1 || lectureBam() == 1) {
-      while (lectureBav == 1 || lectureBam == 1);
-      /*nombreVoiture--;
-        Serial.print("il y a dans le parking : ");
-        Serial.print(nombreVoiture);
-        Serial.print(" voiture(s)");*/
+    delay(500);
+    while ((lectureBav() == BOUCLEAVAL) && (lectureBam() == BOUCLEAMONT));
+    if ((lectureBav() == BOUCLEAVAL) || (lectureBam() == BOUCLEAMONT))
+    {
+      while ((lectureBav() == BOUCLEAVAL) || (lectureBam() == BOUCLEAMONT));
     }
     fermer();
+    delay(500);
   }
+  Wire.endTransmission(MECANISME);
+
+  /* Test Clavier */
+  /*int code;
+    Wire.beginTransmission(0x38);
+    Wire.write(0x0F);
+    Wire.endTransmission(0x38);
+    Wire.requestFrom(0x38, 1);
+    if (Wire.available())
+    {
+    code = Wire.read();
+    Serial.print("CODE :");
+    Serial.println(code, BIN);
+    }*/
 }
-// Fin du programme

@@ -1,37 +1,52 @@
-#include "fonction.h"       // Permet de recuperer le prototype des fonctions ainsi que les differentes constantes
-#include "arduino.h"        // a ne mettre que si l'on utilise un fichier separee
-#include <Wire.h>
+#include <Arduino.h>
+#include <wire.h>
+#include "fonction.h"
+
+int lectureBav()
+{
+  int valeurBit;
+  Wire.beginTransmission(MECANISME);
+  Wire.write(0xF8);
+  Wire.endTransmission(MECANISME);
+  Wire.requestFrom(MECANISME, 1);
+  if (Wire.available())
+  {
+    valeurBit = Wire.read();
+    valeurBit = bitRead(valeurBit, 6);
+    Serial.print("AVAL :");
+    Serial.println(valeurBit);
+  }
+  return valeurBit;
+}
+
+int lectureBam()
+{
+  int valeurBit;
+  Wire.beginTransmission(MECANISME);
+  Wire.write(0xF8);
+  Wire.endTransmission(MECANISME);
+  Wire.requestFrom(MECANISME, 1);
+  if (Wire.available())
+  {
+    valeurBit = Wire.read();
+    valeurBit = bitRead(valeurBit, 5);
+    Serial.print("AMONT :");
+    Serial.println(valeurBit);
+  }
+  return valeurBit;
+}
+
 
 void ouvrir()
 {
-    Wire.beginTransmission(0x20);
-    Wire.write(0xFD);
-    Wire.endTransmission();
+  Wire.beginTransmission(MECANISME);  //Debut de transmission avec MECANISME
+  Wire.write(OUVRIR); //Octet pour ouvrir barriere
+  Wire.endTransmission(MECANISME);  //Fin de transmission avec MECANISME
 }
 
 void fermer()
 {
-    Wire.beginTransmission(0x20);
-    Wire.write(0xFE);
-    Wire.endTransmission();
-}
-
-
-unsigned char lectureBam()
-{
-  Wire.requestFrom(0x20, 1);
-  unsigned char a = Wire.read();
-  
-  Serial.println(a, DEC);
-  return a;
-
-}
-
-unsigned char lectureBav()
-{
-  Wire.requestFrom(0x20, 1);
-  unsigned char a = Wire.read();
-  
-  Serial.println(a, DEC);
-  return a;
+  Wire.beginTransmission(MECANISME);
+  Wire.write(FERMER);
+  Wire.endTransmission(MECANISME);
 }
