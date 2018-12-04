@@ -4,6 +4,7 @@
 #define MECANISME 0x20    //0 0 1 0 0 0 0 0  
 #define AUXILIAIRE 0x21   //0 0 1 0 0 0 0 1
 #define CLAVIER 0x22      //0 0 1 0 0 0 1 0
+#define CARTEAPUCE false
 #define BOUCLEAVAL false
 #define BOUCLEAMONT false
 #define OUVRIR 0xFD
@@ -14,6 +15,10 @@
 int lectureBav();
 
 int lectureBam();
+
+int carteValide();
+
+int lectureClavier();
 
 /***** Commande barriere *****/
 void ouvrir();

@@ -41,6 +41,7 @@ void ouvrir()
 {
   Wire.beginTransmission(MECANISME);  //Debut de transmission avec MECANISME
   Wire.write(OUVRIR); //Octet pour ouvrir barriere
+  Serial.print("OUVRIR");
   Wire.endTransmission(MECANISME);  //Fin de transmission avec MECANISME
 }
 
@@ -48,5 +49,30 @@ void fermer()
 {
   Wire.beginTransmission(MECANISME);
   Wire.write(FERMER);
+  Serial.print("FERMER");
   Wire.endTransmission(MECANISME);
+}
+
+int carteValide()
+{
+  bool valeurCarte;
+  Wire.requestFrom(AUXILIAIRE, 1);
+  if ((bitRead(AUXILIAIRE, 1)) == 0)
+  {
+    valeurCarte = true;
+    ouvrir();
+    delay(2000);
+    fermer();
+  }
+  else
+  {
+   if ((bitRead(AUXILIAIRE, 1)) == 1)
+    {
+      valeurCarte = false;
+      fermer();
+    }
+  }
+  Serial.print("\nCARTE :");
+  Serial.println(valeurCarte);
+  return valeurCarte;
 }
