@@ -7,57 +7,43 @@ void setup() {
   Serial.begin(9600);
   Wire.begin();
   initI2C(255);
-  Wire.beginTransmission(MECANISME);
-  fermer();
-  Wire.endTransmission(MECANISME);
+
 
 }
 
 void loop() {
-  //Entrer d'un vehicule
+
+  Wire.beginTransmission(MECANISME);
+  Wire.beginTransmission(AUXILIAIRE);
   if ((lectureBam() == BOUCLEAMONT) && (lectureBav() != BOUCLEAVAL))
   {
-    Serial.print("Entrer carte valide ou saisi code");
-    if (carteValide() == CARTEAPUCE)
+
+    while (detecterCarte() == CARTE)
     {
-      ouvrir();
-      delay(500);} }
-      /*while ((lectureBav() == BOUCLEAVAL) && (lectureBam() == BOUCLEAMONT));
-      if ((lectureBav() == BOUCLEAVAL) || (lectureBam() == BOUCLEAMONT))
+      for (int i; i <= 5; i++)
       {
-        while ((lectureBav() == BOUCLEAVAL) || (lectureBam() == BOUCLEAMONT));
+        activerBus();
+        lectureCarte();
+        desactiverBus();
       }
-      fermer();
-   
-  */
-  /*else
-    {
-    while (lectureBam() == BOUCLEAMONT)
-    {
-      Serial.print("Code ou carte invalide, veuillez quitter l'entree");
-
+      {
+        Serial.println("Carte OK");
+        ouvrir();
+        delay(3000);
+        while ((lectureBav() == BOUCLEAVAL) && (lectureBam() == BOUCLEAMONT));
+        if ((lectureBav() == BOUCLEAVAL) || (lectureBam() == BOUCLEAMONT))
+        {
+          while ((lectureBav() == BOUCLEAVAL) || (lectureBam() == BOUCLEAMONT));
+        }
+      }
     }
-    }
+    Serial.println("Pas de carte");
+    fermer();
+    delay(30000);
 
-    else
-    {
-    if(lectureClavier == 1)
-    {
-    ouvrir();
-    }
-    else
-    {
-    while(lectureBam == BOUCLEAMONT)
-    {
-      Serial.print("Code ou carte invalide, veuillez quitter l'entree")
-    }
+    desactiverBus();
+  }
 
-    }
-    }*/
-
-
-  /*Sortie d'un vehicule */
-  Wire.beginTransmission(MECANISME);
   if ((lectureBav() == BOUCLEAVAL) && (lectureBam() != BOUCLEAMONT))
   {
     ouvrir();
@@ -71,17 +57,5 @@ void loop() {
     delay(500);
   }
   Wire.endTransmission(MECANISME);
-
-  /* Test Clavier */
-  /*int code;
-    Wire.beginTransmission(0x38);
-    Wire.write(0x0F);
-    Wire.endTransmission(0x38);
-    Wire.requestFrom(0x38, 1);
-    if (Wire.available())
-    {
-    code = Wire.read();
-    Serial.print("CODE :");
-    Serial.println(code, BIN);
-    }*/
+  Wire.endTransmission(AUXILIAIRE);
 }
