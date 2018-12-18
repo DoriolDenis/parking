@@ -3,7 +3,7 @@
 
 #define MECANISME 0x20    //0 0 1 0 0 0 0 0  
 #define AUXILIAIRE 0x21   //0 0 1 0 0 0 0 1
-#define CLAVIER 0x22      //0 0 1 0 0 0 1 0
+#define CLAVIER false      //0 0 1 0 0 0 1 0
 #define CARTE false
 #define BOUCLEAVAL false
 #define BOUCLEAMONT false
@@ -26,7 +26,11 @@ unsigned char lectureCarte();
 
 int lectureClavier();
 
-char convertiseurClavier();
+char convertisseurClavier();
+
+bool codeValide();
+
+bool toucheAppuye();
 
 /***** Commande barriere *****/
 void ouvrir();
